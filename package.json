@@ -1,0 +1,21 @@
+{
+  "name": "myexpressapp",
+  "version": "1.0.0",
+  "description": "learning express",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "ejs": "^2.5.2",
+    "express": "*",
+    "express-validator": "^2.20.10",
+    "mongojs": "^2.4.0"
+  },
+  "author": "superc00kie",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
