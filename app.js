@@ -45,6 +45,8 @@ app.use(expressValidator({
   }
 }));
 
+var users = [{}];
+
 /* example
 
 var logger = function (req, res, next) {
@@ -55,7 +57,7 @@ var logger = function (req, res, next) {
 app.use(logger);
 */
 
-//Route
+//Routes
 app.get('/', function(req, res){
 	db.users.find(function (err, docs) {
     // docs is an array of all the documents in mycollection 
@@ -70,32 +72,37 @@ app.get('/', function(req, res){
 	// res.send("Hello World");
 });
 
+//Add user from POST
 app.post('/users/add', function(req, res){
+	db.users.find(function (err, docs) {
 
+	//User validation before adding to db
 	req.checkBody('name', 'Name is required').notEmpty();
 
 	var errors = req.validationErrors();
 
-	if(errors){
-		res.render('index', {
-		title:'Customers',
-		users: users,
-		errors: errors
-	});
-}else{
-		var newUser ={
-		name: req.body.name
-	}
+		if(errors){
+			res.render('index', {
+			title:'Customers',
+			users: docs,
+			errors: errors
+		})
+		}else{
+			var newUser = {
+			name: req.body.name
+			}
 
-	db.users.insert(newUser, function(err,result){
-		if(err){
-			console.log(err);
+			db.users.insert(newUser, function(err,result){
+				if(err){
+					console.log(err);
+				}
+				res.redirect('/');
+			});
 		}
-		res.redirect('/');
-	});
-	}
+	})
 });
 
+//Delete user 
 app.delete('/users/delete/:id', function(req,res){
 	db.users.remove({_id: ObjectId(req.params.id)}, function(err, resulst){
 		if(err){
